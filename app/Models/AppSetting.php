@@ -12,8 +12,6 @@ class AppSetting extends Model
     public $timestamps=false;
 
     public function getValue($key){
-       $x= $this->where('settings_key', $key)->first();
-        //dd($x);
         return $this->where('settings_key', $key)->first();
     }
 }

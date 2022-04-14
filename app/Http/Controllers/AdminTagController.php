@@ -45,7 +45,6 @@ class AdminTagController extends Controller
         if($tag && !$result->fails()){
             $obj=collect($request->all())->merge(['slug'=>Str::slug($request->name)]);
             $tag->update($obj->toArray());
-            //return response()->json(['success', $obj]) ;
             return redirect()->back()->with('success', 'Tag updated!');
         }else{
             return response()->json(['errors', $result->errors()->all()]);

@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 
@@ -25,8 +26,8 @@ class RegisteredUserController extends Controller
     {
         //dd($request->all());
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:20','unique:users'],
+            'name' => ['required', 'string', 'max:255', Rule::notIn(['deleted user', 'admin', 'administrator'])],
+            'username' => ['required', 'string', 'max:20','unique:users',Rule::notIn(['deleted user', 'admin', 'administrator'])],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::min(8)->mixedCase()->numbers()->symbols()],
             'agree'=>['required']

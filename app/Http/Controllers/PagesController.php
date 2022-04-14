@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 
 class PagesController extends Controller
 {
-    //
+
     public function home()
     {
 
@@ -110,7 +110,6 @@ class PagesController extends Controller
             return redirect()->back();
         }
 
-
         $view_count=$topic->views;
         $topic->views=$view_count+1;
         $topic->update();
@@ -153,7 +152,6 @@ class PagesController extends Controller
 
         return view('user.single_user')->with(['user'=>$user, 'topics'=>$topics]);
     }
-
 
 
     public function registrationCompleted(){

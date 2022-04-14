@@ -14,8 +14,7 @@ class UserComplaintController extends Controller
 {
     public function store(Request $request)
     {
-        //Log::info(\URL::previous());
-        //Log::debug($request->all());
+
         $result = Validator::make($request->all(), [
             'id' => ['required', 'integer'],
             'type'=>['required', Rule::in(['comment', 'topic'])],

@@ -20,7 +20,6 @@ class AdminAppSettingController extends Controller
 
     public function store(Request $request)
     {
-        //Log::info($request->all());
         $result= Validator::make($request->all(), [
             'settings_key'=>['required', 'string', 'max:30', 'min:2'],
             'settings_value' => ['required', 'string', 'max:250'],

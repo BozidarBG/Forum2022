@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
 use App\Models\Topic;
 use App\Models\Banned;
-
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -142,11 +140,36 @@ class ProfileController extends Controller
     }
 
 
-    public function deleteProfile()
+    public function deleteProfile(Request $request)
     {
         //delete avatar
-        //rename user to Deleted User
-        //delete user (soft delete)
+        $user=auth()->user();
+        if ($user->avatar) {
+            $path = parse_url($user->avatars_folder.$user->avatar);
+            File::delete(public_path($path['path']));
+        }
+
+        $user->profile->public_email=null;
+        $user->profile->website=null;
+        $user->profile->location=null;
+        $user->profile->about=null;
+        $user->profile->update();
+
+        $user->avatar = null;
+        $user->name='Deleted User';
+        $user->username="Deleted User";
+        $user->slug=Str::slug('Deleted User');
+        $user->password=Hash::make('secret_admin_password');
+        $user->email="secret_admin_email@email.com";
+        $user->save();
+
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Profile deleted successfully!');
 
 
     }

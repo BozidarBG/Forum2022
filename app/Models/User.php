@@ -81,31 +81,26 @@ class User extends Authenticatable implements MustVerifyEmail
         switch($this->role){
             case '0':
                 return 'Regular User';
-            break;
             case '1':
                 return 'Admin';
-                break;
             case '2':
                 return 'Moderator';
-                break;
             case '3':
                 return 'Banned';
-                default;
         }
     }
 
     public function isBanned(){
-        //return $this->id;
         $banned=Banned::where('user_id', $this->id)->first();
-        return $banned ? true : false;
+        return (bool)$banned;
     }
 
     public function numberOfBans(){
         return Banned::withTrashed()->where('user_id', $this->id)->count();
     }
 
-    public function banned(){
-        return $this->hasMany(Banned::class);
-    }
+//    public function banned(){
+//        return $this->hasMany(Banned::class);
+//    }
 
 }

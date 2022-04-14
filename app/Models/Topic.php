@@ -10,7 +10,7 @@ class Topic extends Model
 {
     use HasFactory, SoftDeletes;
 
-    
+
 
     public function tags(){
         return $this->belongsToMany(Tag::class);
@@ -25,7 +25,7 @@ class Topic extends Model
     }
 
 
-   
+
     public function likes(){
         return $this->hasMany(TopicLike::class)->where('type', 'l');
     }
@@ -41,11 +41,7 @@ class Topic extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
-/*
-    public function commentsCount(){
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-*/
+
     public function commentsCount1()
     {
         return $this->morphMany(Comment::class, 'commentable')->count();
@@ -68,31 +64,17 @@ class Topic extends Model
     }
 
 
-/*
-    public function favouritedByAuthUser(){
-        return in_array(auth()->id(), $this->favourites()->pluck('user_id')->toArray());
+    public function likedByAuthUser($col){
+        return in_array(auth()->id(), $col->where('type', 'l')->pluck('user_id')->toArray());
     }
 
-    public function likedByAuthUser(){
-        return in_array(auth()->id(), $this->likes()->pluck('user_id')->toArray());
+    public function dislikedByAuthUser($col){
+        return in_array(auth()->id(), $col->where('type', 'd')->pluck('user_id')->toArray());
     }
 
-    public function dislikedByAuthUser(){
-        return in_array(auth()->id(), $this->dislikes()->pluck('user_id')->toArray());
+    public function favouritedByAuthUser($col){
+        return in_array(auth()->id(), $col->pluck('user_id')->toArray());
     }
-*/
-
-public function likedByAuthUser($col){
-    return in_array(auth()->id(), $col->where('type', 'l')->pluck('user_id')->toArray());
-}
-
-public function dislikedByAuthUser($col){
-    return in_array(auth()->id(), $col->where('type', 'd')->pluck('user_id')->toArray());
-}
-
-public function favouritedByAuthUser($col){
-    return in_array(auth()->id(), $col->pluck('user_id')->toArray());
-}
 
     public function complaints()
     {

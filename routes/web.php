@@ -46,8 +46,9 @@ Route::get('/banned-user', [ProfileController::class, 'redirectBanned'])->name('
 Route::get('/after-registration', function(){
     return view('user/after_registration');
 })->name('after.registration')->middleware(['guest']);
+
 //AUTHENTICATED USERS ROUTES
-Route::middleware(['auth', 'XssSanitizer', 'banned', 'verified'])->group(function (){
+Route::middleware(['auth', 'XssSanitizer', 'banned' /*, 'verified'*/])->group(function (){
 
     Route::get('/my-profile', [ProfileController::class, 'myProfile'])->name('users.my-profile');
     Route::post('/update-profile-avatar', [ProfileController::class, 'updateAvatar'])->name('users.update.avatar');

@@ -14,12 +14,10 @@ class AdminBannedUsersController extends Controller
     public function index()
     {
         return view('admin.users.banned-users', ['banned_users'=>Banned::with('user')->paginate(10)]);
-
     }
 
 
     public function store(Request $request){
-        //dd($request->all());
         $this->validate($request,[
             'id'=>'required',
             'reason_select'=>'required_without:reason_textarea',

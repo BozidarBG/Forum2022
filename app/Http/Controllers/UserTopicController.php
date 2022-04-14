@@ -21,10 +21,17 @@ class UserTopicController extends Controller
             'category'=>'required|exists:categories,id',
             'tags'=>'required|exists:tags,id',
         ]);
+
+        $name_count=Topic::where('title', $request->title)->count();
+        if($name_count==0){
+            $slug=Str::slug($request->title);
+        }else {
+            $slug = Str::slug($request->title) . '-' . $name_count;
+        }
         $t=new Topic();
         $t->title=$request->title;
         $t->description=$request->description;
-        $t->slug=Str::slug($request->title);
+        $t->slug=$slug;
         $t->user_id=auth()->id();
         $t->category_id=$request->category;
         $t->save();

@@ -65,6 +65,5 @@ class AdminCategoriesController extends Controller
         }
         return response()->json(['errors',$category->id]);
 
-
     }
 }
